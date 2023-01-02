@@ -17,7 +17,6 @@ pico_generate_pio_header(${target_name} ${CMAKE_CURRENT_LIST_DIR}/iot_sram.pio)
 pico_generate_pio_header(${target_name} ${CMAKE_CURRENT_LIST_DIR}/ser_100base_fx.pio)
 
 target_sources(${target_name} PRIVATE
-        tbl_8b10b.c
         udp.c
         sfp_hw.c
         main.c

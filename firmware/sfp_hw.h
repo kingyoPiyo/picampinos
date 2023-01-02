@@ -1,6 +1,5 @@
 #include "hardware/pio.h"
 #include "ser_100base_fx.pio.h"
-#include "tbl_8b10b.h"
 #include "udp.h"    
 
 #define HW_PINNUM_SFP0_TXD      (22)
