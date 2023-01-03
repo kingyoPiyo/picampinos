@@ -248,12 +248,6 @@ void __time_critical_func(udp_packet_gen)(uint32_t *buf, uint8_t *udp_payload) {
     dma_channel_set_read_addr(DMA_UDP, &data_8b[8], true);  // 転送開始
     dma_channel_wait_for_finish_blocking(DMA_UDP);          // 転送完了待機
     uint32_t crc = dma_hw->sniff_data;                      // CRC演算結果取得
-
-    // CRC結果格納（FCS）
-    data_8b[idx++] = (crc >>  0) & 0xFF;
-    data_8b[idx++] = (crc >>  8) & 0xFF;
-    data_8b[idx++] = (crc >> 16) & 0xFF;
-    data_8b[idx++] = (crc >> 24) & 0xFF;
 #else
     // テーブル演算によるCRC計算
     uint32_t crc = 0xffffffff;
@@ -261,11 +255,12 @@ void __time_critical_func(udp_packet_gen)(uint32_t *buf, uint8_t *udp_payload) {
         crc = (crc >> 8) ^ crc_table[(crc ^ data_8b[i]) & 0xFF];
     }
     crc ^= 0xffffffff;
+#endif
+    // CRC結果格納（FCS）
     data_8b[idx++] = (crc >>  0) & 0xFF;
     data_8b[idx++] = (crc >>  8) & 0xFF;
     data_8b[idx++] = (crc >> 16) & 0xFF;
     data_8b[idx++] = (crc >> 24) & 0xFF;
-#endif
 
     //==========================================================================
     // Encording 4b5b & NRZI Encoder
