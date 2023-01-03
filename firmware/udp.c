@@ -248,9 +248,9 @@ void __time_critical_func(udp_packet_gen)(uint32_t *buf, uint8_t *udp_payload) {
         false                   // Don't start yet
     );
     dma_sniffer_enable(DMA_UDP, 1, true);                   // CRC Mode = Calculate a CRC-32 (IEEE802.3 polynomial) with bit reversed data
-	//dma_sniffer_set_byte_swap_enabled(true);              // 1Byte単位の転送なのでSwapはなくてもOK
+    //dma_sniffer_set_byte_swap_enabled(true);              // 1Byte単位の転送なのでSwapはなくてもOK
     hw_set_bits(&dma_hw->sniff_ctrl,                        // おまじない
-		    (DMA_SNIFF_CTRL_OUT_INV_BITS | DMA_SNIFF_CTRL_OUT_REV_BITS));
+               (DMA_SNIFF_CTRL_OUT_INV_BITS | DMA_SNIFF_CTRL_OUT_REV_BITS));
     dma_hw->sniff_data = 0xffffffff;                        // CRCシード初期化
     dma_channel_set_read_addr(DMA_UDP, &data_8b[8], true);  // 転送開始
     dma_channel_wait_for_finish_blocking(DMA_UDP);          // 転送完了待機
